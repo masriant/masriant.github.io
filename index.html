@@ -164,7 +164,7 @@
         </div>
         <div class="row justify-content-center">
           <div class="col-md-6">
-            <div class="alert alert-success alert-dismissible fade show d-none" role="alert">
+            <div class="alert alert-success alert-dismissible fade show d-none my-alert" role="alert">
               <strong>Terima kasih!</strong> Pesan anda sudah kami terima.
               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
@@ -214,11 +214,30 @@
     <script>
       const scriptURL = "https://script.google.com/macros/s/AKfycbyysIz80I3KzPh_58sK6OZ3KwDyuj515sTFam7KmF4VfqnNqp4R6c8V7cIQbQxz7-x_bw/exec";
       const form = document.forms["registrasi"];
+      const btnKirim = document.querySelector(".btn-kirim");
+      const btnLoading = document.querySelector(".btn-loading");
+      const myAlert = document.querySelector(".my-alert");
 
       form.addEventListener("submit", (e) => {
         e.preventDefault();
+        // ketika tombol diklik
+        // tampilkan tombol loading, hilangkan tombol kirim
+        btnLoading.classList.toggle("d-none");
+        btnKirim.classList.toggle("d-none");
+
         fetch(scriptURL, { method: "POST", body: new FormData(form) })
-          .then((response) => console.log("Success!", response))
+          .then((response) => {
+            // tampilkan tombol kirim, hilangkan tombol loading
+            btnLoading.classList.toggle("d-none");
+            btnKirim.classList.toggle("d-none");
+
+            // tampilkan alert
+            myAlert.classList.toggle("d-none");
+
+            // Reset Form
+            form.reset();
+            console.log("Success!", response);
+          })
           .catch((error) => console.error("Error!", error.message));
       });
     </script>
